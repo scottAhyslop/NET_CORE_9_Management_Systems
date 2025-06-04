@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using NET_CORE_9_Mangement_Systems.Models;
 using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,6 +47,7 @@ builder.Services.AddRazorPages().ConfigureApiBehaviorOptions(options =>
     .AddXmlSerializerFormatters(); 
 
 #endregion
+
 var app = builder.Build();
 
 app.UseRouting();

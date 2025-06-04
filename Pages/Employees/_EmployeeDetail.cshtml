@@ -1,0 +1,114 @@
+﻿@using NET_CORE_9_Management_Systems.ViewModels
+@model EmployeeViewModel
+@if (Model is not null && Model.Employee is not null)
+{
+    <form method="post">
+        @Html.AntiForgeryToken()
+
+        <!--if the Action method passed in from Page is 'edit', use existing Id, else, EmployeeId will be created further down by repo-->
+        @if (ViewBag.Action == "edit")
+        {
+            <input type="hidden" name="Employee.EmployeeId" value="@Model.Employee.EmployeeId" />
+        }
+    <!--end 'edit' action check-->
+        <!--employee first name-->
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <label class="col-form-label">First Name: </label>
+            </div>
+            <div class="col-sm-6">
+                <input type='text' name='Employee.EmployeeFirstName' value='@Model.Employee.EmployeeFirstName' class="form-control" />
+            </div>
+        </div>
+
+        <!--employee last name-->
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <label class="col-form-label">Last Name: </label>
+            </div>
+            <div class="col-sm-6">
+                <input type='text' name='Employee.EmployeeLastName' value='@Model.Employee.EmployeeLastName' class="form-control" />
+            </div>
+        </div>
+
+        <!--employee position-->
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <label class="col-form-label">Position: </label>
+            </div>
+            <div class="col-sm-6">
+                <input type='text' name='Employee.EmployeePosition' value='@Model.Employee.EmployeePosition' class="form-control" />
+            </div>
+        </div>
+
+        <!--employee salary-->
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <label class="col-form-label">Salary: </label>
+            </div>
+            <div class="col-sm-6">
+                <input type='text' name='Employee.EmployeeSalary' value='@Model.Employee.EmployeeSalary' class="form-control" />
+            </div>
+        </div>
+
+        <!--employee department-->
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <label class="col-form-label">Department: </label>
+            </div>
+            <div class="col-sm-6">
+                <select name="Employee.DepartmentId" class="form-control">
+                    @if (Model.Departments is not null)
+                    {
+                        <!--if Action is Create, populate whole list-->
+                        @if (ViewBag.Action == "create")
+                        {
+                            <option selected value="0">-- Please Select --</option>
+                        }
+                        else
+                        {
+                            <option value="0">-- Please Select --</option>
+                        }
+
+                        @foreach (var department in Model.Departments)
+                        {
+                            <!--if action is 'edit' then start select with current Employe's Department Name-->
+                            @if (ViewBag.Action == "edit")
+                            {
+                                @if (department.DepartmentId == Model.Employee.DepartmentId)
+                                {
+                                    <option selected value="@department.DepartmentId">@department.DepartmentName</option>
+                                }
+                                else
+                                {
+                                    <option value="@department.DepartmentId">@department.DepartmentName</option>
+                                }
+                            }//end 'edit' Action check
+                             //otherwise populate the select list normally
+                            else
+                            {
+                                <option value="@department.DepartmentId">@department.DepartmentName</option>
+                            }
+                        }//end foreach
+                    }
+                </select>
+            </div>
+        </div>
+
+        <!--save/cancel buttons-->
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <button type='submit' class="btn btn-outline-success btn-sm" style="width:3.75rem;">Save</button>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <a asp-page="/employees/index"
+                   class="btn btn-outline-primary btn-sm"
+                   style="width:3.75rem;">Cancel</a>
+            </div>
+        </div>
+
+    </form>
+
+}

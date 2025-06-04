@@ -1,0 +1,24 @@
+﻿@model Employee
+
+@if (Model is not null)
+{
+    <tr style="text-align:center;">
+        <td>@Model.EmployeeId</td>
+        <td>@Model.EmployeeFirstName</td>
+        <td>@Model.EmployeeLastName</td>
+        <td>@Model.EmployeePosition</td>
+        <td>@Model.EmployeeSalary</td>
+        <td>
+            <a class="btn btn-outline-info btn-sm"
+               asp-controller="Departments"
+               asp-action="Details"
+               asp-route-id="@Model.EmployeeDepartment?.DepartmentId">@Model.EmployeeDepartment?.DepartmentName</a>
+        </td>
+        <td>
+            <a class="btn btn-outline-warning btn-sm"
+               asp-page="/employees/edit/"
+               asp-route-departmentId="@Model.EmployeeId">Edit</a>
+        </td>
+    </tr>
+
+}

@@ -1,0 +1,19 @@
+﻿@page
+@model NET_CORE_9_Management_Systems.Pages.Employees.CreateModel
+@{
+    ViewBag.Title = "Create an Employee";
+    ViewBag.Action = "create";
+}
+
+<!--Create View Departments-->
+
+<div class="center">
+    <div class='container-fluid'>
+        @section title_section {
+            <h3 style="color:lightgreen;">Add Employee</h3>
+        }
+        <br />
+        @await Html.PartialAsync("_EmployeeDetail", Model.EmployeeViewModel)
+
+    </div><!--end container-->
+</div><!--end center class-->

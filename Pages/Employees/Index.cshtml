@@ -1,13 +1,62 @@
 ﻿@page "{EmployeeId:int?}"
 @model NET_CORE_9_Mangement_Systems.Pages.Employees.EmployeeModel
 @{
+    ViewBag.Title = "Employees MS";
 }
 
 <div class="center">
-    @section header_title {<h3 style="color:dodgerblue;">Employees Page</h3>}
-    @section footer_message {
-        <h4 style="color:lightgray;text-decoration:none;">Employee Management System</h4>
-        <a style="text-decoration:none;" href="/">Return to Home</a>
-    }
-</div>
+    <div class='container-fluid'>
+        @section title_section {
+            <h3 style="color:dodgerblue;">Employee Details</h3> <div style="font-size:2.5vh;">(by last name)</div>
+        }
+        <div class='header' style="padding-bottom:0.75rem;">
+            <a class="btn btn-outline-success btn-sm" href='/employees/create'>Create</a>
+        </div>
+        <!--TODO: Change this to a dl, dd, dt set instead of table for better accessibility-->
+        <table class="table table-dark">
+            <!--Table Head-->
+            <thead style="text-align:center;">
+                <tr>
+                    <th>Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Position</th>
+                    <th>Salary</th>
+                    <th>Department</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <!--Table Body-->
+            <tbody id="employee-list">
+                <!--populated by js function in scripts-->
+                <!--previous populate method-->
+                @* @await Component.InvokeAsync("EmployeeList") *@
+            </tbody>
+        </table>
+        <a class="btn btn-outline-primary btn-sm" href="/" style="width:3.75rem;">Back</a>
+    </div><!--close container-->
+</div><!--close center class-->
+<!--End of Razor Page for Employees-->
 <br />
+@section scripts
+{
+    <script>
+
+         //loads full Employees list by default
+         loadEmployees('');
+
+         document.querySelector("#search-button")
+             .addEventListener("click", async()=>
+             {
+                 var filter = document.querySelector("#search-filter").value;
+                 loadEmployees(filter);
+             });
+
+         async function loadEmployees(filter){
+              var response = await fetch(`/employees?filter=${filter}&handler=EmployeesByFilter`);
+             var html = await response.text();
+                  document.querySelector("#employee-list").innerHTML = html;
+        }
+
+    </script>
+}
